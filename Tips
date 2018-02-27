@@ -1,0 +1,4 @@
+windows下命令行设置http,https代理
+  set HTTP_PROXY=http://openproxy.huawei.com:8080
+  set HTTP_PROXY=http://lwx309353:ljy@4567@openproxy.huawei.com:8080
+  set HTTPS_PROXY=http://lwx309353:ljy@4567@openproxy.huawei.com:8080
