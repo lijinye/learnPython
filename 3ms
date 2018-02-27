@@ -1,0 +1,41 @@
+# -*- coding:utf-8 -*-
+import requests
+from bs4 import BeautifulSoup
+import re
+
+headers={'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.101 Safari/537.36'}
+cookies_str=''
+cookie={}
+for i in cookies_str.split(';'):
+    cookie[i.split('=')[0]]=i.split('=')[1]
+    
+def get_link(single_url):
+    res=requests.get(single_url,headers=headers,cookies=cookie)
+    soup=BeautifulSoup(res.text,'html.parser')
+    detail_links=soup.select('.f12.pl5 > a')
+    for detail_link in detail_links:
+        print(detail_link.get('href'))
+        get_info(detail_link.get('href'))
+    
+def get_info(detail_link):
+    res=requests.get(detail_link,headers=headers,cookies=cookie)
+    soup=BeautifulSoup(res.text,'html.parser')
+    authors=soup.select('.mr5.cllink.preview')
+    #read_counts=soup.select('#delay_read_views')
+    #print('read_counts',read_counts)
+    #print('-----------------------------------------------------')    
+    edit_counts=[soup.find(string=re.compile("编辑数")).strip().split('：')[1]]  
+    last_update_times=[soup.find(string=re.compile("最后编辑时间")).strip().split('：')[1]]
+    titles=soup.select('body > div.contents.mt10 > div.ng_box > div.gird_content > div.gird9.left > div > h3 > div.L')   
+    for author,edit_count,last_update_time,title in zip(authors,edit_counts,last_update_times,titles):
+        data={
+            'author':author.get_text(),
+            'edit_count':edit_count,
+            'last_update_time':last_update_time,
+            'title':title.get_text().strip()
+        }
+        print(data)
+if __name__=='__main__':
+    urls=['http://3ms.huawei.com/hi/index.php?category=all&p={}'.format(number) for number in range(1,14)]
+    for single_url in urls:
+        get_link(single_url)
