@@ -24,7 +24,7 @@ def re_scraper(url):
             'title': title,
             'author': author
         }
-        print(info)
+        # print(info)
 
 
 def bs_scraper(url):
@@ -37,26 +37,29 @@ def bs_scraper(url):
             'title': title.get_text(),
             'author': author.get_text()
         }
-        print(info)
+        # print(info)
 
 
 def lxml_scraper(url):
     res = requests.get(url, headers=headers, cookies=cookie)
     selector = etree.HTML(res.text)
     info_list = selector.xpath('//dd[@class="getTopId"]')
-    for infos in info_list:
-        title = infos.xpath('div[1]/a/text()')[0]
-        author = infos.xpath('div[2]/cite/a/text()')[0]
-        info = {
-            'title': title,
-            'author': author
-        }
-        print(info)
+    try:
+        for infos in info_list:
+            title = infos.xpath('div[1]/a/text()')[0]
+            author = infos.xpath('div[2]/cite/a/text()')[0]
+            info = {
+                'title': title,
+                'author': author
+            }
+            # print(info)
+    except IndexError:
+        pass
 
 
 if __name__ == '__main__':
     urls = ['http://3ms.huawei.com/hi/index.php?app=bbs&mod=Index&act=all&3ms_type=menu&p={0}'.format(i) for i in
-            range(1, 20)]
+            range(1, 31)]
     for name, method in [('正则表达式', re_scraper), ('BeautifulSoup', bs_scraper), ('lxml', lxml_scraper)]:
         begin = time.time()
         for u in urls:
