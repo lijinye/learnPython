@@ -3,6 +3,8 @@
 
 import requests
 from bs4 import BeautifulSoup
+from multiprocessing import Pool
+import time
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.101 Safari/537.36'}
@@ -22,5 +24,13 @@ def get_info(url):
 
 if __name__=='__main__':
     urls = ['https://www.vmall.com/list-115-{0}-0-0'.format(i) for i in range(1, 6)]
-    for url in urls:
-        get_info(url)
+    # start=time.time()
+    # for url in urls:
+    #      get_info(url)
+    # stop = time.time()
+    # print(stop-start)
+    start = time.time()
+    pool=Pool(processes=4)
+    pool.map(get_info,urls)
+    stop = time.time()
+    print(stop - start)
