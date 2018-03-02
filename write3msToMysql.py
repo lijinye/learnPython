@@ -12,9 +12,9 @@ cookie = {}
 for i in cookies_str.split(';'):
     cookie[i.split('=')[0]] = i.split('=')[1]
 
+conn = pymysql.connect(host='127.0.0.1', user='root', db='mydb', port=3306, charset='utf8')
+cursor = conn.cursor()
 
-conn=pymysql.connect(host='127.0.0.1',user='root',db='mydb',port=3306,charset='utf8')
-cursor=conn.cursor()
 
 def get_link(single_url):
     res = requests.get(single_url, headers=headers, cookies=cookie)
@@ -33,11 +33,12 @@ def get_info(detail_link):
     last_update_time = soup.xpath('/html/body/div[2]/div[1]/div[2]/div[2]/div[1]/div[2]/p[4]/text()')
     title = soup.xpath('/html/body/div[2]/div[1]/div[2]/div[1]/div/h3/div[1]/text()')
     try:
-        author=author[0]
-        edit_count= int(edit_count[0].strip().split('：')[1])
-        last_update_time= last_update_time[0].strip().split('：')[1]
-        title= title[0].strip()
-        cursor.execute("insert into huawei3ms values ('%s','%s',%d,'%s')" % (author,title,edit_count,last_update_time))
+        author = author[0]
+        edit_count = int(edit_count[0].strip().split('：')[1])
+        last_update_time = last_update_time[0].strip().split('：')[1]
+        title = title[0].strip()
+        cursor.execute(
+            "insert into huawei3ms values ('%s','%s',%d,'%s')" % (author, title, edit_count, last_update_time))
         conn.commit()
     except IndexError:
         pass
@@ -47,9 +48,7 @@ if __name__ == '__main__':
     urls = [
         'http://3ms.huawei.com/hi/index.php?app=group&mod=Wiki&act=wiki_list&gid=2034789&typeOrder=all&category=all&p={}'.format(
             number) for number in range(1, 14)]
-    pool=Pool(processes=4)
-    pool.map(get_link,urls)
+    pool = Pool(processes=4)
+    pool.map(get_link, urls)
 
     conn.close()
-
-
