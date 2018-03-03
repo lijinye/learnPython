@@ -2,3 +2,8 @@ windows下命令行设置http,https代理
   set HTTP_PROXY=http://openproxy.huawei.com:8080
   set HTTP_PROXY=http://lwx309353:ljy@4567@openproxy.huawei.com:8080
   set HTTPS_PROXY=http://lwx309353:ljy@4567@openproxy.huawei.com:8080
+
+mongodb配置步骤：
+1、安装好后创建C:\Program Files\MongoDB\Server\3.6\data\db文件夹
+2、进入bin文件夹，在命令行输入mongod -dbpath "C:\Program Files\MongoDB\Server\3.6\data\db" 启动服务
+3、在bin文件夹，输入mongo连接数据库或者使用可视化工具连接
