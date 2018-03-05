@@ -1,5 +1,5 @@
 # -*- coding:utf-8 -*-
-# 登录qq邮箱获取好友qq号，再登录qq空间获取动态存储到数据库
+# 使用selenium模拟登录qq邮箱获取好友邮箱并导出到本地
 
 from selenium import webdriver
 import csv
