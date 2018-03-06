@@ -15,7 +15,7 @@ options = webdriver.ChromeOptions()
 options.add_argument(
     'User-Agent=Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3282.119 Safari/537.36')
 # 设置代理
-options.add_argument("--proxy-server=http://202.20.16.82:10152")
+#options.add_argument("--proxy-server=http://202.20.16.82:10152")
 driver = webdriver.Chrome(chrome_options=options)
 
 # driver=webdriver.PhantomJS()
