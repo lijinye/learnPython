@@ -26,7 +26,7 @@ def get_info(url):
         driver.find_element_by_id('p').send_keys('LJYljy60944493')
         driver.find_element_by_id('login_button').click()
     #点击通讯录
-    # driver.fullscreen_window()
+    driver.maximize_window()
     driver.find_element_by_xpath('//*[@id="navBarTd"]/li[3]/a').click()
     # time.sleep(1)
     time.sleep(1)
@@ -40,6 +40,11 @@ def get_info(url):
     #选择CSV格式导出
     driver.switch_to.default_content()
     driver.find_element_by_xpath('//*[@id="qMDiAlog_iMpoRt_QMDialog_import"]/div/ul/li[2]/div/p[2]/label/input').click()
+    time.sleep(1)
     driver.find_element_by_xpath('//*[@id="qMDiAlog_iMpoRt_QMDialog_geConfirmBtn"]').click()
+    time.sleep(1)
+    driver.execute_script('alert("操作完毕，5秒后自动关闭")')
+    time.sleep(5)
+    driver.quit()
 if __name__ == '__main__':
     get_info('https://mail.qq.com/')
