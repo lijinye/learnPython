@@ -7,3 +7,12 @@ mongodb配置步骤：
 1、安装好后创建C:\Program Files\MongoDB\Server\3.6\data\db文件夹
 2、进入bin文件夹，在命令行输入mongod -dbpath "C:\Program Files\MongoDB\Server\3.6\data\db" 启动服务
 3、在bin文件夹，输入mongo连接数据库或者使用可视化工具连接
+
+
+Linux
+安装/卸载pycharm
+	sudo snap install pycharm-community --classic
+	sudo snap remove pycharm-community
+安装git
+	sudo apt-get install git
+	测试: 命令行键入 git version
