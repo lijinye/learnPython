@@ -51,15 +51,15 @@ def get_products():
     """
     html = browser.page_source
     doc = pq(html)
-    print(doc('.m-itemlist .items .item'))
+    # print(doc('.m-itemlist .items .item'))
     items = doc('.m-itemlist .items .item').items()
     for item in items:
         # print('item==',items.html())
         product = {
             'image': item.find('.pic .img').attr('data-src'),
-            'price': item.find('.price').text(),
+            'price': item.find('.price').text().replace('\n',''),
             'deal': item.find('.deal-cnt').text(),
-            'title': item.find('.title').text(),
+            'title': item.find('.title').text().replace('\n',','),
             'shop': item.find('.shop').text(),
             'location': item.find('.location').text()
         }
