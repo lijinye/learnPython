@@ -23,7 +23,8 @@ def string_reverse1(s):
     :return:
     '''
     s = list(s)
-    s.reverse()
+    for i in range(int(len(s) / 2)):
+        s[i], s[len(s) - 1 - i] = s[len(s) - 1], s[i]
     return ''.join(s)
 
 
