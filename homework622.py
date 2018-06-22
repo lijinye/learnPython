@@ -24,7 +24,7 @@ def string_reverse1(s):
     '''
     s = list(s)
     for i in range(int(len(s) / 2)):
-        s[i], s[len(s) - 1 - i] = s[len(s) - 1], s[i]
+        s[i], s[len(s) - 1 - i] = s[len(s) - 1 - i], s[i]
     return ''.join(s)
 
 
@@ -53,6 +53,6 @@ def test(time=20):
 
 
 if __name__ == '__main__':
-    print(string_reverse('abcd1234'))
-    print(string_reverse1('abcd1234'))
+    # print(string_reverse('abcd1234'))
+    # print(string_reverse1('abcd1234'))
     test(20)
