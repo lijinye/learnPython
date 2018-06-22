@@ -31,7 +31,7 @@ def reverse_str(s):
     return s[::-1]
 
 
-def randomStr(n):
+def randomStr(n=10):
     '''
     产生随机字符串
     :param n: 字符串长度
@@ -44,14 +44,14 @@ def randomStr(n):
     return s
 
 
-def test(randomstring, time=20):
+def test(time=20):
     for i in range(time):
-        print('test:',i)
+        randomstring = randomStr(8)
+        print('test:', randomstring, 'time:', i)
         assert reverse_str(randomstring) == string_reverse1(randomstring)
 
 
 if __name__ == '__main__':
     print(string_reverse('abcd1234'))
     print(string_reverse1('abcd1234'))
-    randomstring = randomStr(8)
-    test(randomstring, 20)
+    test(20)
