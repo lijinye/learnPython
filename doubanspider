@@ -62,3 +62,4 @@ if __name__ == '__main__':
         print('type=', booktype['type'])
         get_book_detail(booktype['type'], booktype['url'])
         time.sleep(2)
+    client.close()
