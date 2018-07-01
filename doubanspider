@@ -1,0 +1,64 @@
+# -*- coding:utf-8 -*-
+import time
+
+import pymongo
+import requests
+from bs4 import BeautifulSoup
+
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36',
+    'Host': 'book.douban.com',
+    'Referer': 'https://book.douban.com/',
+    'Cookie': '填写'
+}
+typeurl = 'https://book.douban.com/tag/?view=cloud'
+host = 'https://book.douban.com'
+client = pymongo.MongoClient()
+db = client['douban']
+collection = db['doubanbooks']
+
+
+def get_booktype():
+    res = requests.get(url=typeurl, headers=headers)
+    if res.status_code == 200:
+        soup = BeautifulSoup(res.text, 'lxml')
+        types = soup.select('table.tagCol > tbody > tr a')
+        for type in types:
+            booktype = {
+                'url': type['href'],
+                'type': type.string
+            }
+            yield booktype
+
+
+def get_book_detail(type, detail_url):
+    print('url=', host + detail_url)
+    res = requests.get(url=host + detail_url, headers=headers)
+    if res.status_code == 200:
+        soup = BeautifulSoup(res.text, 'lxml')
+        items = soup.select('#subject_list > ul > li')
+        if items:
+            for item in items:
+                bookdetail = {
+                    'type': type,
+                    'name': item.select('div.info > h2 > a')[0]['title'],
+                    'author': item.select('div.info > div.pub')[0].string.strip().split('/')[0],
+                    'time': item.select('div.info > div.pub')[0].string.strip().split('/')[-2],
+                    'price': item.select('div.info > div.pub')[0].string.strip().split('/')[-1],
+                    'score': item.select('div.info > div.star.clearfix > span.rating_nums')[0].string if item.select(
+                        'div.info > div.star.clearfix > span.rating_nums') else '0',
+                    'numbers': item.select('div.info > div.star.clearfix > span.pl')[0].string.strip()
+                }
+                collection.insert_one(bookdetail)
+        if soup.select('#subject_list > div.paginator > span.next > a'):
+            next_url = soup.select('#subject_list > div.paginator > span.next > a')[0]['href']
+            time.sleep(1)
+            get_book_detail(type, next_url)
+
+
+if __name__ == '__main__':
+    booktypes = get_booktype()
+    for booktype in booktypes:
+        print('type=', booktype['type'])
+        get_book_detail(booktype['type'], booktype['url'])
+        time.sleep(2)
