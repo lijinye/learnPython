@@ -74,9 +74,10 @@ if __name__ == '__main__':
     print('booktypes==', booktypes)
     loop = asyncio.get_event_loop()
     size = 10
-    for i in range(0, len(booktypes), size):
-        if i + size > len(booktypes):
-            types = booktypes[i:len(booktypes)]
+    length = len(booktypes)
+    for i in range(0, length, size):
+        if i + size > length:
+            types = booktypes[i:length]
         else:
             types = booktypes[i:i + size]
         tasks = [main(type['type'], type['url']) for type in types]
