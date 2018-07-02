@@ -56,7 +56,7 @@ async def get_book_detail(session, type, detail_url):
                             'numbers': item.select('div.info > div.star.clearfix > span.pl')[0].string.strip()
                         }
                         collection.insert_one(bookdetail)
-                asyncio.sleep(5)
+                await asyncio.sleep(5)
                 if soup.select('#subject_list > div.paginator > span.next > a'):
                     next_url = soup.select('#subject_list > div.paginator > span.next > a')[0]['href']
                     await get_book_detail(session, type, next_url)
